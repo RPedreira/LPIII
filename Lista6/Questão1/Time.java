@@ -20,20 +20,22 @@ public class Time{
             setSegundos(segundos);
         }
     }
+
+    public Time(Time outraHora){
+        this(outraHora.horas, outraHora.minutos, outraHora.segundos);
+    }
     
     public Time(int horas, int minutos){
-        if(validateTime(horas, minutos)){
-            setHoras(horas);
-            setMinutos(minutos);
-        }
+        this(horas, minutos, 0);
     }
     
     public Time(int horas){
-        if(validateTime(horas))
-            setHoras(horas);
+        this(horas, 0);
     }
 
-    public Time(){}
+    public Time(){
+        this(0);
+    }
 
     public void infoTime(){
         System.out.println(horas + ":" + minutos + ":" + segundos);
@@ -47,17 +49,11 @@ public class Time{
     }
 
     public boolean validateTime(int horas, int minutos){
-        boolean flag = false;
-        if((horas >= 0 && horas < 24) && (minutos >= 0 && minutos < 60))
-            flag = true;
-        return flag;
+        return validateTime(horas, minutos, 0);
     }
 
     public boolean validateTime(int horas){
-        boolean flag = false;
-        if((horas >= 0 && horas < 24))
-            flag = true;
-        return flag;
+        return validateTime(horas, 0);
     }
 
     public boolean isAm(){
@@ -78,13 +74,25 @@ public class Time{
         segundos = hora.getTempo() % 60;
     }
 
-    public void addSeconds(int secs){
-        setSegundos(segundos + secs);
-        setMinutos(minutos + (segundos / 60));
+    public void addTime(int h, int m, int s){
+        setSegundos(segundos + s);
+        setMinutos(minutos + m + (segundos / 60));
         setSegundos(segundos % 60);
-        setHoras(horas + (minutos / 60));
+        setHoras(horas + h + (minutos / 60));
         setMinutos(minutos % 60);
         setHoras(horas % 24);
+    }
+
+    public void addTime(Time outraHora){
+        addTime(outraHora.horas, outraHora.minutos, outraHora.segundos);
+    }
+    
+    public void addTime(int m, int s){
+        addTime(0, m, s);
+    }
+
+    public void addTime(int s){
+        addTime(0, s);
     }
 
 }
